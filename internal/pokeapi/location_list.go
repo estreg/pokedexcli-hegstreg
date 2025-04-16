@@ -18,6 +18,17 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
         url = *pageURL 							 // This is for pagination - using "next" and "previous" URLs from prior API responses.
     }
 
+    if val, ok := c.cache.Get(url); ok {
+		locationsResp := RespShallowLocations{}
+		err := json.Unmarshal(val, &locationsResp)
+		if err != nil {
+			return RespShallowLocations{}, err
+		}
+
+		return locationsResp, nil
+	}
+
+
     req, err := http.NewRequest("GET", url, nil) // Creates a new HTTP GET request for the specified URL. You have to do it like this,
     if err != nil {								 // because you are using a special Client and not the default one.
         return RespShallowLocations{}, err		 // Important and easiely forgotten: The third parameter "nil" indicates there's no request body.
@@ -44,6 +55,7 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
         return RespShallowLocations{}, err
     }
 
+    c.cache.Add(url, dat)
     return locationsResp, nil
 }
 
