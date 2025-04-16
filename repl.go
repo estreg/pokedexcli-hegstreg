@@ -5,7 +5,16 @@ import (
 	"fmt"
 	"os"
 	"strings"
+
+	"github.com/estreg/pokedexcli-hegstreg/internal/pokeapi"
 )
+
+type Config struct {
+	pokeapiClient    pokeapi.Client // "pokeapi.Client" indicates this is a custom type called Client from a package called pokeapi.
+	nextLocationsURL *string
+	prevLocationsURL *string
+}
+// Note that this is storing the actual client value, not a pointer to the client. Whether this is optimal depends on how the pokeapi.Client type is designed and how large it is.
 
 func startRepl(cfg *Config) {
 	scanner := bufio.NewScanner(os.Stdin)
@@ -37,10 +46,6 @@ func cleanInput(text string) []string {
 	output := strings.ToLower(text)
 	words := strings.Fields(output)
 	return words
-}
-type Config struct {
-	Next 	 string
-	Previous string
 }
 
 type cliCommand struct { // Registry of commands. More an abstraction Layer.
