@@ -18,14 +18,15 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
         url = *pageURL 							 // This is for pagination - using "next" and "previous" URLs from prior API responses.
     }
 
-    if val, ok := c.cache.Get(url); ok {
-		locationsResp := RespShallowLocations{}
+    // When making a request, you first check if the data is already cached.
+    if val, ok := c.cache.Get(url); ok {         // The URL serves as the cache key.
+		locationsResp := RespShallowLocations{}  // When Dat is found in cache.
 		err := json.Unmarshal(val, &locationsResp)
 		if err != nil {
 			return RespShallowLocations{}, err
 		}
 
-		return locationsResp, nil
+		return locationsResp, nil                // Return the data immediately, avoiding an HTTP request.
 	}
 
 
@@ -55,7 +56,8 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
         return RespShallowLocations{}, err
     }
 
-    c.cache.Add(url, dat)
+    // After getting a successful HTTP response, you store it in the cache.
+    c.cache.Add(url, dat)                       // The raw response body (dat) is stored as bytes in the cache.
     return locationsResp, nil
 }
 
@@ -64,3 +66,6 @@ func (c *Client) ListLocations(pageURL *string) (RespShallowLocations, error) {
 // We use Unmarshal over Decode because:
 // - Use Unmarshal when dealing with small to medium-sized complete JSON responses.
 // - Use Decode when dealing with very large JSON data, streaming applications, or when parsing JSON in chunks.
+
+// Your cache automatically removes entries older than "cacheInterval" - Look at the pokecache package.
+// The cache is thread-safe thanks to the mutex that is implemented. And the cache reaping happens in a background goroutine.

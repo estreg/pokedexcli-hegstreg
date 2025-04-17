@@ -8,7 +8,7 @@ import (
 
 func main() {
 	// Create API Client
-	pokeClient := pokeapi.NewClient(5 * time.Second, time.Minute*5) // This calls a function named Newclient from your pokeapi package.
+	pokeClient := pokeapi.NewClient(5 * time.Second, time.Minute * 5) // This calls a function named Newclient from your pokeapi package, which initializes a client and also a cache.
 	
 	// Initialize Config
 	cfg := &Config{ 								 // Creates a new Config struct and initializes it with the pokeapi client,

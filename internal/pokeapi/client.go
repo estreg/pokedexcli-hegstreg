@@ -9,11 +9,11 @@ import (
 
 // Client - a client for the PokeAPI. This will be used to make all HTTP requests to the PokeAPI.
 type Client struct {
-	cache pokecache.Cache
-	httpClient http.Client
+	cache 		pokecache.Cache
+	httpClient 	http.Client
 }
 
-// NewClient - creates a new PokeAPI client with the specified timeout.
+// NewClient - creates a new PokeAPI client and a cache with the specified timeout.
 func NewClient(timeout, cacheInterval time.Duration) Client {
 	return Client{
 		cache: pokecache.NewCache(cacheInterval),
