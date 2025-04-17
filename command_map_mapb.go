@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-func commandMap(cfg *Config) error {
+func commandMap(cfg *Config, args ...string) error {
 	// Get locations data using the API client
 	locationsResp, err := cfg.pokeapiClient.ListLocations(cfg.nextLocationsURL) // Calls the "ListLocations" method from your PokeAPI client
 	if err != nil {																// and Passes the current "nextLocationsURL" from the config (which could be nil on first call).
@@ -23,7 +23,7 @@ func commandMap(cfg *Config) error {
 	return nil
 }
 
-func commandMapb(cfg *Config) error {
+func commandMapb(cfg *Config, args ...string) error {
 	//Simple Check, if we are on the first page.
 	if cfg.prevLocationsURL == nil {
 		return errors.New("you're on the first page")

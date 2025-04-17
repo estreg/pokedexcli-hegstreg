@@ -28,9 +28,14 @@ func startRepl(cfg *Config) {
 		}
 
 		command := words[0]
+		args := []string{}
+		if len(words) > 1 {
+			args = words[1:]
+		}
+		
 		cmd, exists := getCommands()[command]
 		if exists {
-			err := cmd.callback(cfg)
+			err := cmd.callback(cfg, args...)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -51,11 +56,16 @@ func cleanInput(text string) []string {
 type cliCommand struct { // Registry of commands. More an abstraction Layer.
 	name		string
 	description string
-	callback 	func(cfg *Config) error
+	callback 	func(*Config, ...string) error
 }
 
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{ // Adding XXX Command to the command registery or register XXX command means to place it this map. You have the name of the command and the cliCommand Struc like Structure.
+		"explore": {
+			name:        "explore <location_name>",
+			description: "Explore a location",
+			callback:    commandExplore,
+		},
 		"exit" : {
 			name:		 "exit",
 			description: "Exit the Pokedex.",
