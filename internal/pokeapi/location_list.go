@@ -7,8 +7,8 @@ import (
     "net/http"
 )
 
-// ListLocations -
-// This defines a method on the Client type (because of the (c *Client) receiver).
+// ListLocations
+// This defines a method on the Client type (because of the "c *Client" receiver).
 // Takes a pageURL parameter which is a pointer to a string (can be nil).
 // Returns two values: a RespShallowLocations struct and an error.
 

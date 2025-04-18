@@ -13,6 +13,7 @@ type Config struct {
 	pokeapiClient    pokeapi.Client // "pokeapi.Client" indicates this is a custom type called Client from a package called pokeapi.
 	nextLocationsURL *string
 	prevLocationsURL *string
+	caughtPokemon 	 map[string]pokeapi.Pokemon
 }
 // Note that this is storing the actual client value, not a pointer to the client. Whether this is optimal depends on how the pokeapi.Client type is designed and how large it is.
 
@@ -61,6 +62,11 @@ type cliCommand struct { // Registry of commands. More an abstraction Layer.
 
 func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{ // Adding XXX Command to the command registery or register XXX command means to place it this map. You have the name of the command and the cliCommand Struc like Structure.
+		"catch": {
+			name:        "catch <pokemon>",
+			description: "try to catch a pokemon",
+			callback:    commandCatch,
+		},
 		"explore": {
 			name:        "explore <location_name>",
 			description: "Explore a location",
