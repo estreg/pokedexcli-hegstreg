@@ -64,12 +64,12 @@ func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{ // Adding XXX Command to the command registery or register XXX command means to place it this map. You have the name of the command and the cliCommand Struc like Structure.
 		"catch": {
 			name:        "catch <pokemon>",
-			description: "try to catch a pokemon",
+			description: "try to catch a Pokemon.",
 			callback:    commandCatch,
 		},
 		"explore": {
 			name:        "explore <location_name>",
-			description: "Explore a location",
+			description: "Explore a location.",
 			callback:    commandExplore,
 		},
 		"exit" : {
@@ -82,6 +82,11 @@ func getCommands() map[string]cliCommand {
 			description: "Displays a help message.",
 			callback:	 commandHelp,
 		},
+		"inspect": {
+			name:		 "inspect <pokemon>",
+			description: "Displays details of a catched Pokemon.",
+			callback:	 commandInspect,
+		},
 		"map" : {
 			name:		 "map",
 			description: "Displays the names of 20 locations. Each subsequent call displays the next 20.",
@@ -91,6 +96,11 @@ func getCommands() map[string]cliCommand {
 			name:		 "mapb",
 			description: "Displays the previous 20 locations.",
 			callback:	 commandMapb,
+		},
+		"pokedex" : {
+			name:		 "pokedex",
+			description: "Shows the pokemon you caught and that you can inspect.",
+			callback:	 commandPokedex,
 		},
 		
 	}

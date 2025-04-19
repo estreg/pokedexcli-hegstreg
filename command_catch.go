@@ -18,6 +18,7 @@ func commandCatch(cfg *Config, args ...string) error {
 	if err != nil {
 		return err
 	}
+	fmt.Println()
 	fmt.Printf("Throwing a Pokeball at %s...\n", pokemon.Name) // check if ".Name" works
 	
 	randomNum := rand.Intn(43)
@@ -25,13 +26,16 @@ func commandCatch(cfg *Config, args ...string) error {
 	if catchChance < 2 {									  
 		catchChance = 3						
 	}
-
+	
 	if randomNum < catchChance {
 		fmt.Printf("%s was caught!\n", pokemon.Name)
         cfg.caughtPokemon[pokemon.Name] = pokemon
+		fmt.Println("You may now inspect it with the 'inspect' command.")
 	} else {
 		fmt.Printf("%s escaped!\n", pokemon.Name)
+		fmt.Println("You can try it again!")
 	}
+	fmt.Println()
 	
 	return nil
 }
